@@ -1,0 +1,20 @@
+<?php
+
+use App\Http\Controllers\Api\AuthenticatedUserController;
+use App\Http\Controllers\Api\ChannelController;
+use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+
+Route::post('login', [AuthenticatedUserController::class, 'store']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn (Request $request) => $request->user());
+
+    Route::get('messages/{channel_id}', [MessageController::class, 'index']);
+    Route::post('messages', [MessageController::class, 'store']);
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('channels', [ChannelController::class, 'index']);
+});
